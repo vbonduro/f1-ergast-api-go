@@ -12,5 +12,13 @@ func TestCurrentSchedule(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%v\n", races)
+	fmt.Printf("Race Schedule:\n%v\n", races)
+}
+
+func TestNextRace(t *testing.T) {
+	race, err := ergast.NextRace()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Next Race:\n%v\n", race)
 }

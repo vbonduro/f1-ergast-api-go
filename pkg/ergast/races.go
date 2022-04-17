@@ -37,9 +37,21 @@ type Race struct {
 // RaceSchedule will return the race schedule for the current year.
 func RaceSchedule() ([]Race, error) {
 	const URL = "http://ergast.com/api/f1/current.json"
+	return getRaces(URL)
+}
 
+func NextRace() (*Race, error) {
+	const URL = "http://ergast.com/api/f1/current/next.json"
+	races, err := getRaces(URL)
+	if err != nil {
+		return nil, err
+	}
+	return &races[0], nil
+}
+
+func getRaces(uri string) ([]Race, error) {
 	var scheduleResponse response.ScheduleResponse
-	err := request.Get(URL, &scheduleResponse)
+	err := request.Get(uri, &scheduleResponse)
 	if err != nil {
 		return nil, err
 	}
