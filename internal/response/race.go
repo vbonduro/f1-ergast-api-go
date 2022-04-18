@@ -33,6 +33,7 @@ type RaceSchedule struct {
 	Date           string      `json:"date"`
 	Time           string      `json:"time"`
 	FirstPractice  TimeGroup   `json:"FirstPractice"`
+	Sprint         TimeGroup   `json:"Sprint"`
 	SecondPractice TimeGroup   `json:"SecondPractice"`
 	ThirdPractice  TimeGroup   `json:"ThirdPractice"`
 	Qualifying     TimeGroup   `json:"Qualifying"`
