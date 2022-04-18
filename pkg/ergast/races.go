@@ -28,6 +28,7 @@ type Race struct {
 	Name                string
 	CircuitInfo         Circuit
 	FirstPracticeStart  time.Time
+	SprintRaceStart     time.Time
 	SecondPracticeStart time.Time
 	ThirdPracticeStart  time.Time
 	QualifyingStart     time.Time
@@ -124,6 +125,11 @@ func populateTimestamps(race *Race, response *response.RaceSchedule) error {
 		return err
 	}
 
+	sprintTime, err := makeTime(response.Sprint.Date, response.Sprint.Time)
+	if err != nil {
+		return err
+	}
+
 	practice2Time, err := makeTime(response.SecondPractice.Date, response.SecondPractice.Time)
 	if err != nil {
 		return err
@@ -141,6 +147,7 @@ func populateTimestamps(race *Race, response *response.RaceSchedule) error {
 
 	race.RaceStart = raceTime
 	race.FirstPracticeStart = practice1Time
+	race.SprintRaceStart = sprintTime
 	race.SecondPracticeStart = practice2Time
 	race.ThirdPracticeStart = practice3Time
 	race.QualifyingStart = qualifyingTime
