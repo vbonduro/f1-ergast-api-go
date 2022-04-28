@@ -33,11 +33,21 @@ type DriverStanding struct {
 	Constructors []Constructor `json:"Constructors"`
 }
 
+// ConstructorStanding contains the JSON response structure from a Get request
+// to the constructor standings URI.
+type ConstructorStanding struct {
+	Position        string      `json:"position"`
+	Points          string      `json:"points"`
+	Wins            string      `json:"wins"`
+	ConstructorInfo Constructor `json:"Constructor"`
+}
+
 // An entry in the standings list.
 type standingsEntry struct {
-	Season    string           `json:"season"`
-	Round     string           `json:"round"`
-	Standings []DriverStanding `json:"DriverStandings"`
+	Season               string                `json:"season"`
+	Round                string                `json:"round"`
+	Standings            []DriverStanding      `json:"DriverStandings"`
+	ConstructorStandings []ConstructorStanding `json:"ConstructorStandings"`
 }
 
 // standingsTable contains the actual driver standings info for a season.
@@ -67,4 +77,15 @@ func DriverStandings() ([]DriverStanding, error) {
 		return nil, err
 	}
 	return response.Data.Table.StandingsList[0].Standings, nil
+}
+
+// ConstructorStandings will return the current constructor standings for the current season.
+func ConstructorStandings() ([]ConstructorStanding, error) {
+	const URL = "https://ergast.com/api/f1/current/constructorStandings.json"
+	var response standingsResponse
+	err := request.Get(URL, &response)
+	if err != nil {
+		return nil, err
+	}
+	return response.Data.Table.StandingsList[0].ConstructorStandings, nil
 }
